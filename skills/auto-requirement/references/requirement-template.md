@@ -2,7 +2,7 @@
 
 Use this template when producing the final optimized requirement document in Phase 10.
 
-**Orientation**: This document is for **product decision-making**. It answers "Why are we building this?", "What are we building?", and "What are the priorities and trade-offs?" Implementation details (architecture, DDL, API specs, code interfaces) belong in the downstream auto-todo/auto-dev pipeline.
+**Orientation**: This document is for **product decision-making**. It answers "Why are we building this?", "What are we building?", and "What are the priorities and trade-offs?" It also captures **macro-level technical architecture decisions** (database choice, service architecture, frontend/backend separation) that constrain downstream engineering work. Implementation details (API endpoint design, DDL schemas, code interfaces, library-level choices) belong in the downstream auto-todo/auto-dev pipeline.
 
 **Adaptive depth**: Not every section applies to every project. Sections marked `[IF APPLICABLE]` should be included only when the depth assessment warrants them. At minimum, every document must have sections 1-6.
 
@@ -238,6 +238,18 @@ Use when actions affect multiple data entities or downstream systems.
 - [Logging requirements]
 - [Metrics and alerting requirements]
 - [Audit trail requirements]
+
+### 5.6 [IF APPLICABLE] Technical Architecture Decisions
+
+Macro-level technical decisions that constrain downstream engineering work. These are **technical requirements**, not implementation details — they answer "What technology boundaries do we commit to?" rather than "How do we implement within those boundaries?"
+
+| ID | Decision | Rationale | Alternatives Considered | Downstream Impact |
+|----|----------|-----------|------------------------|-------------------|
+| AR-001 | [e.g., PostgreSQL for primary database] | [Why this choice] | [What else was considered] | [How this constrains auto-todo/auto-dev] |
+| AR-002 | [e.g., Frontend/backend separation] | [Why this choice] | [Monolith, SSR] | [Affects task grouping and phasing] |
+| AR-003 | [e.g., REST API architecture] | [Why this choice] | [GraphQL, gRPC] | [Affects API task structure] |
+
+**Scope boundary**: Only include decisions that constrain the overall system structure. Per-module technology choices (e.g., which ORM, which state management library) belong in auto-todo's engineering detail decisions.
 
 ---
 

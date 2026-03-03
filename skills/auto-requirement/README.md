@@ -115,7 +115,7 @@ Before producing the final document, a validation pass checks:
  └───────────┬────────────────────────────┘
              ▼
  ┌───────────────────────────┐
- │  7. Present unified Q&A    │  Top-down order, max 5 per round
+ │  7. Present unified Q&A    │  Top-down order, max 10 per round
  │     + progress indicator   │
  └───────────┬───────────────┘
              ▼

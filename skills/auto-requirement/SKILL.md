@@ -196,7 +196,7 @@ Use category-prefix IDs with lightweight cross-references:
 | Functional Requirement | `FR` | `FR-001` |
 | Non-Functional Requirement | `NFR` | `NFR-001` |
 | Data Contract | `DC` | `DC-001` |
-| Architecture Constraint | `AR` | `AR-001` |
+| Architecture Decision | `AR` | `AR-001` |
 | Risk | `RSK` | `RSK-001` |
 | Open Question | `OQ` | `OQ-001` |
 
@@ -275,7 +275,7 @@ The Synthesis Agent:
 4. **Resolves where possible** — using evidence and reasoning
 5. **Escalates to user** — unresolvable conflicts become questions
 6. **Deduplicates questions** — merge similar questions from different agents
-7. **Prioritizes questions** — most impactful first, max 5 per round; follow top-down order (strategic → structural → behavioral → constraints)
+7. **Prioritizes questions** — most impactful first, max 10 per round; follow top-down order (strategic → structural → behavioral → constraints)
 8. **Builds unified hierarchy** — merge agent outputs into a single updated goal tree with requirements organized by capability domain
 9. **Assesses depth per branch** — for each CD branch, evaluate:
    - **Completeness score** (1-5): How many requirements have acceptance criteria?
@@ -334,7 +334,7 @@ Present the synthesized questions to the user:
 - Group related questions logically, following top-down order
 - Show WHY each question matters (which agent raised it, what it impacts)
 - Show **which goal tree node** the question relates to
-- Limit to **3-5 questions per round** to avoid overwhelming
+- Limit to **5-10 questions per round** to avoid overwhelming
 - **Provide sensible defaults** where common patterns exist (mark as "Recommended")
 
 Format:
@@ -381,6 +381,7 @@ After each round of user answers:
    - **Domain depth**: decision trees/computation rules/state machines produced where needed?
    - **Cross-cutting**: non-functional requirements, dependencies between domains addressed?
    - **Risks**: identified per domain with mitigation strategies?
+   - **Technical architecture**: macro-level technical decisions (database, service architecture, key technology choices) settled?
    - **Constraints**: timeline, budget, tech stack settled?
 
 **Stop iterating when:** All critical dimensions have concrete, measurable answers AND depth assessment shows all branches at 3/5 or higher. "Good enough" — don't pursue perfection at the cost of user fatigue.
@@ -408,6 +409,10 @@ After each round of user answers:
 5. **Consistency check**:
    - No conflicting requirements across different domains
    - No requirements that contradict stated non-goals
+6. **Architecture decision completeness** (if applicable):
+   - Technical architecture decisions (AR-xxx) are captured when Technical Agent identified them
+   - Each AR has rationale and downstream impact documented
+   - No AR contradicts stated NFRs
 
 If validation finds issues, resolve them before proceeding to document production. Minor issues can be noted in the Open Questions section.
 
@@ -425,7 +430,8 @@ The document is written for **product decision-making**, not engineering impleme
 
 - **Emphasize**: strategic alignment, scope decisions with rationale, priority trade-offs, risk assessment, success metrics
 - **Include**: domain-depth artifacts (decision trees, state machines) only where they clarify business logic for decision-makers
-- **Defer to auto-todo/auto-dev**: implementation architecture, API design, DDL schemas, code interfaces
+- **Include**: technical architecture decisions (database choice, service architecture, frontend/backend separation) — these are macro-level technical requirements that constrain downstream engineering work
+- **Defer to auto-todo/auto-dev**: implementation details (API endpoint design, DDL schemas, code interfaces, library-level choices)
 
 ### Key Sections (Hierarchical)
 
@@ -434,7 +440,7 @@ The document is written for **product decision-making**, not engineering impleme
 3. **User Personas & Scenarios** — who, why, how (linked to goals)
 4. **Capability Domains & Feature Hierarchy** — organized by domain, not flat list
    - Each domain contains its features, acceptance criteria, and domain-depth artifacts
-5. **Non-Functional Requirements** — performance, security, scalability
+5. **Non-Functional Requirements** — performance, security, scalability, and technical architecture decisions (if applicable)
 6. **Scope & Boundaries** — explicit in-scope, out-of-scope, non-goals with rationale
 7. **Dependency Summary** — auto-generated from cross-references
 8. **Risks & Mitigations** — per-domain and cross-cutting risks
@@ -475,7 +481,7 @@ Present the document section by section:
 
 | Mistake | Fix |
 |---------|-----|
-| Asking too many questions per round | Max 5, prioritize by impact |
+| Asking too many questions per round | Max 10, prioritize by impact |
 | Assuming unstated requirements | Mark as `[NEEDS CLARIFICATION]` or TBD |
 | Skipping contradiction scan | Always scan before deep analysis |
 | Running agents sequentially | Always dispatch in parallel |
